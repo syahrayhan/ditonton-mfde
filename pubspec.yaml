@@ -32,6 +32,21 @@ dependencies:
   flutter_bloc: ^8.0.0
   firebase_core: ^2.15.0
   firebase_crashlytics: ^3.3.4
+  cupertino_icons: ^1.0.2
+  http: ^0.13.3
+  equatable: ^2.0.2
+  google_fonts: ^4.0.3
+  flutter_rating_bar: ^4.0.1
+  cached_network_image: ^3.0.0
+  sqflite_sqlcipher: ^2.1.0
+  path_provider: ^2.0.2
+  dartz: ^0.10.0-nullsafety.2
+  encrypt: ^5.0.1
+
+  data_connection_checker:
+    git:
+      url: https://github.com/chornthorn/data_connection_checker.git
+      ref: master 
 
   about: 
     path: about
@@ -44,6 +59,7 @@ dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
   bloc_test: ^9.0.0
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
