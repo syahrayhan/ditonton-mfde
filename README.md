@@ -1,3 +1,7 @@
+# Codemagic Badge
+
+[![Codemagic build status](https://api.codemagic.io/apps/64c03ed24b3694116917187b/release-workflow/status_badge.svg)](https://codemagic.io/apps/64c03ed24b3694116917187b/release-workflow/latest_build)
+
 # a199-flutter-expert-project
 
 Repository ini merupakan starter project submission kelas Flutter Expert Dicoding Indonesia.
@@ -7,7 +11,6 @@ Repository ini merupakan starter project submission kelas Flutter Expert Dicodin
 ## Tips Submission Awal
 
 Pastikan untuk memeriksa kembali seluruh hasil testing pada submissionmu sebelum dikirimkan. Karena kriteria pada submission ini akan diperiksa setelah seluruh berkas testing berhasil dijalankan.
-
 
 ## Tips Submission Akhir
 
