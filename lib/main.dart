@@ -1,30 +1,30 @@
 import 'package:core/core.dart';
 import 'package:about/about.dart';
-import 'package:core/presentation/pages/movie_detail_page.dart';
-import 'package:core/presentation/pages/home_movie_page.dart';
-import 'package:core/presentation/pages/popular_movies_page.dart';
+import 'package:movie/presentation/pages/movie_detail_page.dart';
+import 'package:movie/presentation/pages/home_movie_page.dart';
+import 'package:movie/presentation/pages/popular_movies_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/presentation/bloc/search_bloc.dart';
 import 'package:search/presentation/pages/search_page.dart';
-import 'package:core/presentation/pages/top_rated_movies_page.dart';
-import 'package:core/presentation/pages/tv_show_detail_page.dart';
-import 'package:core/presentation/pages/tv_show_page.dart';
-import 'package:core/presentation/pages/tv_show_popular_page.dart';
+import 'package:movie/presentation/pages/top_rated_movies_page.dart';
+import 'package:tv/presentation/pages/tv_show_detail_page.dart';
+import 'package:tv/presentation/pages/tv_show_page.dart';
+import 'package:tv/presentation/pages/tv_show_popular_page.dart';
 import 'package:search/presentation/pages/tv_show_search_page.dart';
-import 'package:core/presentation/pages/tv_show_top_rated_page.dart';
+import 'package:tv/presentation/pages/tv_show_top_rated_page.dart';
 import 'package:core/presentation/pages/watchlist_movies_page.dart';
-import 'package:core/presentation/provider/movie_detail_notifier.dart';
-import 'package:core/presentation/provider/movie_list_notifier.dart';
+import 'package:movie/presentation/provider/movie_detail_notifier.dart';
+import 'package:movie/presentation/provider/movie_list_notifier.dart';
 import 'package:search/presentation/provider/movie_search_notifier.dart';
-import 'package:core/presentation/provider/popular_movies_notifier.dart';
-import 'package:core/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:core/presentation/provider/tv_show_detail_notifier.dart';
-import 'package:core/presentation/provider/tv_show_list_notifier.dart';
-import 'package:core/presentation/provider/tv_show_popular_notifier.dart';
+import 'package:movie/presentation/provider/popular_movies_notifier.dart';
+import 'package:movie/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:tv/presentation/provider/tv_show_detail_notifier.dart';
+import 'package:tv/presentation/provider/tv_show_list_notifier.dart';
+import 'package:tv/presentation/provider/tv_show_popular_notifier.dart';
 import 'package:search/presentation/provider/tv_show_search_notifier.dart';
-import 'package:core/presentation/provider/tv_show_top_rated_notifier.dart';
+import 'package:tv/presentation/provider/tv_show_top_rated_notifier.dart';
 import 'package:core/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +44,12 @@ void main() async {
 
   await HttpSSLPinning.init();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -97,16 +99,18 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
         ),
-        home: HomeMoviePage(),
+        home: const HomeMoviePage(),
         navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/home':
-              return MaterialPageRoute(builder: (_) => HomeMoviePage());
+              return MaterialPageRoute(builder: (_) => const HomeMoviePage());
             case PopularMoviesPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
+              return CupertinoPageRoute(
+                  builder: (_) => const PopularMoviesPage());
             case TopRatedMoviesPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) => TopRatedMoviesPage());
+              return CupertinoPageRoute(
+                  builder: (_) => const TopRatedMoviesPage());
             case MovieDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
@@ -114,17 +118,20 @@ class MyApp extends StatelessWidget {
                 settings: settings,
               );
             case SearchPage.ROUTE_NAME:
-              return CupertinoPageRoute(builder: (_) => SearchPage());
+              return CupertinoPageRoute(builder: (_) => const SearchPage());
             case WatchlistMoviesPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
+              return MaterialPageRoute(
+                  builder: (_) => const WatchlistMoviesPage());
             case AboutPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => AboutPage());
+              return MaterialPageRoute(builder: (_) => const AboutPage());
             case TvShowPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => TvShowPage());
+              return MaterialPageRoute(builder: (_) => const TvShowPage());
             case TvShowPopularPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => TvShowPopularPage());
+              return MaterialPageRoute(
+                  builder: (_) => const TvShowPopularPage());
             case TvShowTopRatedPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => TvShowTopRatedPage());
+              return MaterialPageRoute(
+                  builder: (_) => const TvShowTopRatedPage());
             case TvShowDetailPage.ROUTE_NAME:
               final id = settings.arguments as int;
               return MaterialPageRoute(
@@ -132,10 +139,11 @@ class MyApp extends StatelessWidget {
                 settings: settings,
               );
             case TvShowSearchPage.ROUTE_NAME:
-              return MaterialPageRoute(builder: (_) => TvShowSearchPage());
+              return MaterialPageRoute(
+                  builder: (_) => const TvShowSearchPage());
             default:
               return MaterialPageRoute(builder: (_) {
-                return Scaffold(
+                return const Scaffold(
                   body: Center(
                     child: Text('Page not found :('),
                   ),

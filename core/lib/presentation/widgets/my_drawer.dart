@@ -1,4 +1,4 @@
-import 'package:core/presentation/pages/tv_show_page.dart';
+import 'package:tv/presentation/pages/tv_show_page.dart';
 import 'package:core/presentation/pages/watchlist_movies_page.dart';
 import 'package:flutter/material.dart';
 import 'package:about/about.dart';
@@ -11,7 +11,7 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage('assets/circle-g.png'),
             ),
@@ -19,22 +19,22 @@ class MyDrawer extends StatelessWidget {
             accountEmail: Text('ditonton@dicoding.com'),
           ),
           ListTile(
-            leading: Icon(Icons.movie),
-            title: Text('Movies'),
+            leading: const Icon(Icons.movie),
+            title: const Text('Movies'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/home');
             },
           ),
           ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('TV Shows'),
+            leading: const Icon(Icons.tv),
+            title: const Text('TV Shows'),
             onTap: () {
               Navigator.pushReplacementNamed(context, TvShowPage.ROUTE_NAME);
             },
           ),
           ListTile(
-            leading: Icon(Icons.save_alt),
-            title: Text('Watchlist'),
+            leading: const Icon(Icons.save_alt),
+            title: const Text('Watchlist'),
             onTap: () {
               Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
             },
@@ -43,8 +43,8 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
             },
-            leading: Icon(Icons.info_outline),
-            title: Text('About'),
+            leading: const Icon(Icons.info_outline),
+            title: const Text('About'),
           ),
         ],
       ),
