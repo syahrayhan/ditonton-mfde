@@ -1,9 +1,9 @@
 import 'package:core/core.dart';
 
-import 'package:search/presentation/provider/tv_show_search_notifier.dart';
 import 'package:core/presentation/widgets/tv_show_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:search/presentation/bloc/search_tv/search_tv_bloc.dart';
 
 class TvShowSearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/tv_show_search';
@@ -21,9 +21,8 @@ class TvShowSearchPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<TvShowSearchNotifier>(context, listen: false)
-                    .fetchTvShowSearch(query);
+              onChanged: (query) {
+                context.read<SearchTvBloc>().add(OnQueryChanged(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -39,19 +38,28 @@ class TvShowSearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<TvShowSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
+            BlocBuilder<SearchTvBloc, SearchTvState>(
+              builder: (context, state) {
+                if (state is SearchLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.Loaded) {
-                  final result = data.searchResult;
+                } else if (state is SearchHasData) {
+                  final result = state.result;
+
+                  if (result.isEmpty) {
+                    return const Expanded(
+                      child: Center(
+                        child: Text("Sorry we can't find any movie or Tv Show"),
+                      ),
+                    );
+                  }
+
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final tvShow = data.searchResult[index];
+                        final tvShow = state.result[index];
                         return TvShowCard(
                           tvShow: tvShow,
                         );
@@ -59,9 +67,17 @@ class TvShowSearchPage extends StatelessWidget {
                       itemCount: result.length,
                     ),
                   );
-                } else {
+                } else if (state is SearchError) {
                   return Expanded(
-                    child: Container(),
+                    child: Center(
+                      child: Text(state.message),
+                    ),
+                  );
+                } else {
+                  return const Expanded(
+                    child: Center(
+                      child: Text("Search something to find movie"),
+                    ),
                   );
                 }
               },

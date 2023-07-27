@@ -14,6 +14,8 @@ import 'package:movie/domain/usecases/get_movie_recommendations.dart';
 import 'package:movie/domain/usecases/get_now_playing_movies.dart';
 import 'package:movie/domain/usecases/get_popular_movies.dart';
 import 'package:movie/domain/usecases/get_top_rated_movies.dart';
+import 'package:search/presentation/bloc/search_movie/search_movie_bloc.dart';
+import 'package:search/presentation/bloc/search_tv/search_tv_bloc.dart';
 import 'package:tv/domain/usecases/get_tv_show_detail.dart';
 import 'package:tv/domain/usecases/get_tv_show_now.dart';
 import 'package:tv/domain/usecases/get_tv_show_popular.dart';
@@ -31,14 +33,11 @@ import 'package:search/domain/usecases/search_movies.dart';
 import 'package:search/domain/usecases/search_tv_show.dart';
 import 'package:movie/presentation/provider/movie_detail_notifier.dart';
 import 'package:movie/presentation/provider/movie_list_notifier.dart';
-import 'package:search/presentation/bloc/search_bloc.dart';
-import 'package:search/presentation/provider/movie_search_notifier.dart';
 import 'package:movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:movie/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_detail_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_list_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_popular_notifier.dart';
-import 'package:search/presentation/provider/tv_show_search_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_top_rated_notifier.dart';
 import 'package:core/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:get_it/get_it.dart';
@@ -48,10 +47,16 @@ final locator = GetIt.instance;
 void init() {
   // bloc
   locator.registerFactory(
-    () => SearchBloc(
+    () => SearchMovieBloc(
       locator(),
     ),
   );
+  locator.registerFactory(
+    () => SearchTvBloc(
+      locator(),
+    ),
+  );
+
   // provider
   locator.registerFactory(
     () => MovieListNotifier(
@@ -69,11 +74,7 @@ void init() {
       removeWatchlist: locator(),
     ),
   );
-  locator.registerFactory(
-    () => MovieSearchNotifier(
-      searchMovies: locator(),
-    ),
-  );
+
   locator.registerFactory(
     () => PopularMoviesNotifier(
       locator(),
@@ -114,11 +115,6 @@ void init() {
       getTvWatchlistStatus: locator(),
       removeTvShowWatchlist: locator(),
       saveTvShowWatchlist: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TvShowSearchNotifier(
-      searchTvShow: locator(),
     ),
   );
 

@@ -6,7 +6,8 @@ import 'package:movie/presentation/pages/popular_movies_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:search/presentation/bloc/search_bloc.dart';
+import 'package:search/presentation/bloc/search_movie/search_movie_bloc.dart';
+import 'package:search/presentation/bloc/search_tv/search_tv_bloc.dart';
 import 'package:search/presentation/pages/search_page.dart';
 import 'package:movie/presentation/pages/top_rated_movies_page.dart';
 import 'package:tv/presentation/pages/tv_show_detail_page.dart';
@@ -17,13 +18,11 @@ import 'package:tv/presentation/pages/tv_show_top_rated_page.dart';
 import 'package:core/presentation/pages/watchlist_movies_page.dart';
 import 'package:movie/presentation/provider/movie_detail_notifier.dart';
 import 'package:movie/presentation/provider/movie_list_notifier.dart';
-import 'package:search/presentation/provider/movie_search_notifier.dart';
 import 'package:movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:movie/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_detail_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_list_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_popular_notifier.dart';
-import 'package:search/presentation/provider/tv_show_search_notifier.dart';
 import 'package:tv/presentation/provider/tv_show_top_rated_notifier.dart';
 import 'package:core/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,9 +63,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<TvShowDetailNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<MovieSearchNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedMoviesNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -84,11 +80,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TvShowTopRatedNotifier>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvShowSearchNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<SearchMovieBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<SearchBloc>(),
+          create: (_) => di.locator<SearchTvBloc>(),
         ),
       ],
       child: MaterialApp(
