@@ -1,0 +1,171 @@
+import 'package:core/domain/entities/movie.dart';
+import 'package:core/utils/failure.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:movie/domain/usecases/get_now_playing_movies.dart';
+import 'package:movie/domain/usecases/get_popular_movies.dart';
+import 'package:movie/domain/usecases/get_top_rated_movies.dart';
+import 'package:movie/presentation/bloc/movie_list_bloc/movie_list_bloc_bloc.dart';
+import 'package:bloc_test/bloc_test.dart';
+
+import 'movie_list_bloc_test.mocks.dart';
+
+@GenerateMocks([GetNowPlayingMovies, GetPopularMovies, GetTopRatedMovies])
+void main() {
+  late NowPlayingMovieListBloc nowPlayingMovieListBloc;
+  late MockGetNowPlayingMovies mockGetNowPlayingMovies;
+  late PopularMovieListBloc popularMovieListBloc;
+  late MockGetPopularMovies mockGetPopularMovies;
+  late TopRatedMovieListBloc topRatedMovieListBloc;
+  late MockGetTopRatedMovies mockGetTopRatedMovies;
+
+  setUp(() {
+    mockGetNowPlayingMovies = MockGetNowPlayingMovies();
+    nowPlayingMovieListBloc = NowPlayingMovieListBloc(mockGetNowPlayingMovies);
+    mockGetPopularMovies = MockGetPopularMovies();
+    popularMovieListBloc = PopularMovieListBloc(mockGetPopularMovies);
+    mockGetTopRatedMovies = MockGetTopRatedMovies();
+    topRatedMovieListBloc = TopRatedMovieListBloc(mockGetTopRatedMovies);
+  });
+
+  final testMovie = Movie(
+    adult: false,
+    backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
+    genreIds: const [14, 28],
+    id: 557,
+    originalTitle: 'Spider-Man',
+    overview:
+        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+    popularity: 60.441,
+    posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
+    releaseDate: '2002-05-01',
+    title: 'Spider-Man',
+    video: false,
+    voteAverage: 7.2,
+    voteCount: 13507,
+  );
+
+  final tMovieList = [testMovie];
+
+  group('now playing movie list', () {
+    test('Initial state should be empty', () {
+      expect(nowPlayingMovieListBloc.state, MovieListEmpty());
+    });
+
+    blocTest<NowPlayingMovieListBloc, MovieListBlocState>(
+      'Should emit [MovieListLoading, MovieListLoaded] when data is show successfully',
+      build: () {
+        when(mockGetNowPlayingMovies.execute())
+            .thenAnswer((_) async => Right(tMovieList));
+        return nowPlayingMovieListBloc;
+      },
+      act: (bloc) => bloc.add(const MovieListBlocEvent()),
+      expect: () => [
+        MovieListLoading(),
+        MovieListLoaded(tMovieList),
+      ],
+      verify: (bloc) {
+        verify(mockGetNowPlayingMovies.execute());
+      },
+    );
+
+    blocTest<NowPlayingMovieListBloc, MovieListBlocState>(
+      'Should emit [MovieListLoading, MovieListError] when get Failure',
+      build: () {
+        when(mockGetNowPlayingMovies.execute())
+            .thenAnswer((_) async => const Left(ServerFailure('Failed')));
+        return nowPlayingMovieListBloc;
+      },
+      act: (bloc) => bloc.add(const MovieListBlocEvent()),
+      expect: () => [
+        MovieListLoading(),
+        const MovieListError('Failed'),
+      ],
+      verify: (_) {
+        verify(mockGetNowPlayingMovies.execute());
+      },
+    );
+  });
+
+  group('popular movie list', () {
+    test('Initial state should be empty', () {
+      expect(popularMovieListBloc.state, MovieListEmpty());
+    });
+
+    blocTest<PopularMovieListBloc, MovieListBlocState>(
+      'Should emit [MovieListLoading, MovieListLoaded] when data is show successfully',
+      build: () {
+        when(mockGetPopularMovies.execute())
+            .thenAnswer((_) async => Right(tMovieList));
+        return popularMovieListBloc;
+      },
+      act: (bloc) => bloc.add(const MovieListBlocEvent()),
+      expect: () => [
+        MovieListLoading(),
+        MovieListLoaded(tMovieList),
+      ],
+      verify: (bloc) {
+        verify(mockGetPopularMovies.execute());
+      },
+    );
+
+    blocTest<PopularMovieListBloc, MovieListBlocState>(
+      'Should emit [MovieListLoading, MovieListError] when get Failure',
+      build: () {
+        when(mockGetPopularMovies.execute())
+            .thenAnswer((_) async => const Left(ServerFailure('Failed')));
+        return popularMovieListBloc;
+      },
+      act: (bloc) => bloc.add(const MovieListBlocEvent()),
+      expect: () => [
+        MovieListLoading(),
+        const MovieListError('Failed'),
+      ],
+      verify: (_) {
+        verify(mockGetPopularMovies.execute());
+      },
+    );
+  });
+
+  group('top rated movie list', () {
+    test('Initial state should be empty', () {
+      expect(topRatedMovieListBloc.state, MovieListEmpty());
+    });
+
+    blocTest<TopRatedMovieListBloc, MovieListBlocState>(
+      'Should emit [MovieListLoading, MovieListLoaded] when data is show successfully',
+      build: () {
+        when(mockGetTopRatedMovies.execute())
+            .thenAnswer((_) async => Right(tMovieList));
+        return topRatedMovieListBloc;
+      },
+      act: (bloc) => bloc.add(const MovieListBlocEvent()),
+      expect: () => [
+        MovieListLoading(),
+        MovieListLoaded(tMovieList),
+      ],
+      verify: (bloc) {
+        verify(mockGetTopRatedMovies.execute());
+      },
+    );
+
+    blocTest<TopRatedMovieListBloc, MovieListBlocState>(
+      'Should emit [MovieListLoading, MovieListError] when get Failure',
+      build: () {
+        when(mockGetTopRatedMovies.execute())
+            .thenAnswer((_) async => const Left(ServerFailure('Failed')));
+        return topRatedMovieListBloc;
+      },
+      act: (bloc) => bloc.add(const MovieListBlocEvent()),
+      expect: () => [
+        MovieListLoading(),
+        const MovieListError('Failed'),
+      ],
+      verify: (_) {
+        verify(mockGetTopRatedMovies.execute());
+      },
+    );
+  });
+}
