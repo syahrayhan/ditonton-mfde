@@ -23,11 +23,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     super.initState();
     Future.microtask(() {
       BlocProvider.of<NowPlayingMovieListBloc>(context, listen: false)
-          .getNowPlayingMovies;
+          .add(const MovieListBlocEvent());
       BlocProvider.of<PopularMovieListBloc>(context, listen: false)
-          .getPopularMovies;
+          .add(const MovieListBlocEvent());
       BlocProvider.of<TopRatedMovieListBloc>(context, listen: false)
-          .getTopRatedMovies;
+          .add(const MovieListBlocEvent());
     });
   }
 

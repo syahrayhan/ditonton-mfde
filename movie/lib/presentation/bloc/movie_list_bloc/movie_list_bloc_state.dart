@@ -7,14 +7,9 @@ abstract class MovieListBlocState extends Equatable {
   List<Object> get props => [];
 }
 
-// empty
 class MovieListEmpty extends MovieListBlocState {}
 
-// loading
-
 class MovieListLoading extends MovieListBlocState {}
-
-// loaded
 
 class MovieListLoaded extends MovieListBlocState {
   final List<Movie> movies;
@@ -24,8 +19,6 @@ class MovieListLoaded extends MovieListBlocState {
   @override
   List<Object> get props => [movies];
 }
-
-// error
 
 class MovieListError extends MovieListBlocState {
   final String message;
